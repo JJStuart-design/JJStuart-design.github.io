@@ -313,7 +313,7 @@
             color: var(--accent);
         }
         
-        /* Modal Styles */
+        /* Modal Styles - Fixed Version */
         .modal {
             display: none;
             position: fixed;
@@ -328,9 +328,28 @@
         
         .modal-content {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100%;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+        
+        #modalImage {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 5px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            background: white;
+        }
+        
+        #modalCaption {
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            font-size: 1.1rem;
         }
         
         .close-btn {
@@ -343,10 +362,18 @@
             cursor: pointer;
             z-index: 2001;
             transition: color 0.3s;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .close-btn:hover {
             color: var(--accent);
+            background: rgba(0,0,0,0.7);
         }
         
         @keyframes fadeIn {
@@ -381,6 +408,13 @@
                 top: 10px;
                 right: 20px;
                 font-size: 30px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            #modalImage {
+                max-width: 95vw;
+                max-height: 70vh;
             }
         }
     </style>
@@ -547,91 +581,60 @@ main frame. It's powered by two high-torque geared motors and uses a PID control
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h4>Testing & Calibration</h4>
-                        <p>Rigorous testing and fine-tuning of the balancing system</p>
+                        <h4>Testing & Tuning</h4>
+                        <p>Fine-tuning motor response and sensor calibration for stable balancing</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>Self-Balancing Robot Project by Jawanza Stuart</p>
+            <p>Jawanza Stuart | Self-Balancing Robot Project</p>
             <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
         </div>
     </footer>
-
-    <!-- Modal for enlarged images -->
+    
+    <!-- Modal -->
     <div id="imageModal" class="modal">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <div class="modal-content">
-            <img id="modalImage" src="" alt="">
+            <img id="modalImage" src="" alt="Enlarged Image">
+            <div id="modalCaption"></div>
         </div>
-        <div id="modalCaption"></div>
     </div>
-
+    
     <script>
-        // Simple script to handle navigation highlighting
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-links a');
+        function openModal(src, caption) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            const modalCaption = document.getElementById("modalCaption");
+            
+            modal.style.display = "block";
+            modalImg.src = src;
+            modalCaption.textContent = caption;
+        }
         
-        window.addEventListener('scroll', function() {
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 100)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Modal functions for image enlargement
-        function openModal(imageSrc, caption) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            const captionText = document.getElementById('modalCaption');
-            
-            modal.style.display = 'block';
-            modalImg.src = imageSrc;
-            captionText.textContent = caption;
-            
-            // Prevent body scrolling when modal is open
-            document.body.style.overflow = 'hidden';
-        }
-
         function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.display = 'none';
-            
-            // Restore body scrolling
-            document.body.style.overflow = 'auto';
+            document.getElementById("imageModal").style.display = "none";
         }
-
-        // Close modal when clicking outside the image
-        document.getElementById('imageModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
+        
+        // Close modal when clicking outside image
+        window.onclick = function(event) {
+            const modal = document.getElementById("imageModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
             }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
+        }
+        
+        // Close modal with Esc key
+        window.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
                 closeModal();
             }
         });
     </script>
 </body>
 </html>
-
