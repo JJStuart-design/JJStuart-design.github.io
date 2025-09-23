@@ -337,12 +337,14 @@
         }
         
         #modalImage {
-            max-width: 90%;
-            max-height: 85%;
-            object-fit: contain;
+            max-width: 95vw;     /* scale relative to viewport width */
+            max-height: 80vh;    /* scale relative to viewport height */
+            object-fit: contain; /* ensures image maintains aspect ratio */
             border-radius: 5px;
             box-shadow: 0 5px 25px rgba(0,0,0,0.5);
             background: white;
+}
+
         }
         
         #modalCaption {
@@ -410,11 +412,6 @@
                 font-size: 30px;
                 width: 40px;
                 height: 40px;
-            }
-            
-            #modalImage {
-                max-width: 95vw;
-                max-height: 70vh;
             }
         }
     </style>
@@ -638,3 +635,4 @@ main frame. It's powered by two high-torque geared motors and uses a PID control
     </script>
 </body>
 </html>
+
