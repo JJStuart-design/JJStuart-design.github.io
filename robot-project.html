@@ -219,12 +219,17 @@
         
         .gallery-img {
             height: 250px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.02);
         }
         
         .gallery-content {
@@ -308,6 +313,47 @@
             color: var(--accent);
         }
         
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            transition: color 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: var(--accent);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
@@ -329,6 +375,12 @@
             
             .specs-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .close-btn {
+                top: 10px;
+                right: 20px;
+                font-size: 30px;
             }
         }
     </style>
@@ -406,44 +458,59 @@ main frame. It's powered by two high-torque geared motors and uses a PID control
         </div>
     </section>
 
-   <!-- Gallery Section -->
-<section id="gallery" style="background-color: #f8f9fa;">
-    <div class="container">
-        <div class="section-title">
-            <h2>Project Gallery</h2>
-        </div>
-        
-        <div class="gallery">
-            <div class="gallery-item">
-                <div class="gallery-img">
-                    <div class="gallery-img" style="background: white; overflow: auto;">
-                    <img src="images/SBRdiagram.png" alt="Robot Design Diagram" style="max-width: 100%; height: auto; display: block;">
+    <!-- Gallery Section -->
+    <section id="gallery" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Gallery</h2>
+            </div>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/SBBdiagram.png" alt="Robot Design Diagram" 
+                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             onclick="openModal('images/SBBdiagram.png', 'Robot Design Diagram')">
+                        <div class="image-placeholder" style="display: none; flex-direction: column; align-items: center; color: #666; cursor: pointer; width: 100%; height: 100%; justify-content: center;"
+                             onclick="openModal('images/SBBdiagram.png', 'Robot Design Diagram')">
+                            <i class="fas fa-ruler-combined" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                            <p>Image not found</p>
+                        </div>
+                    </div>
+                    <div class="gallery-content">
+                        <h4>Design Specifications</h4>
+                        <p>Laser cut parts and component measurements</p>
+                        <p><small><i>Click image to enlarge</i></small></p>
+                    </div>
                 </div>
-                <div class="gallery-content">
-                    <h4>Design Specifications</h4>
-                    <p>Laser cut parts and component measurements</p>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img">
+                        <img src="images/SBBwiring.png" alt="Wiring Diagram" 
+                             style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             onclick="openModal('images/SBBwiring.png', 'Wiring Diagram')">
+                        <div class="image-placeholder" style="display: none; flex-direction: column; align-items: center; color: #666; cursor: pointer; width: 100%; height: 100%; justify-content: center;"
+                             onclick="openModal('images/SBBwiring.png', 'Wiring Diagram')">
+                            <i class="fas fa-project-diagram" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                            <p>Image not found</p>
+                        </div>
+                    </div>
+                    <div class="gallery-content">
+                        <h4>Wiring Schematic</h4>
+                        <p>Circuit connections between STM32, MPU-6050, and motors</p>
+                        <p><small><i>Click image to enlarge</i></small></p>
+                    </div>
                 </div>
             </div>
             
-            <div class="gallery-item">
-                <div class="gallery-img">
-                     <div class="gallery-img">
-                    <div class="gallery-img" style="background: white; overflow: auto;">
-                    <img src="images/SBRwiring.png" alt="Wiring Diagram" style="max-width: 100%; height: auto; display: block;">
-                </div>
-                <div class="gallery-content">
-                    <h4>Wiring Schematic</h4>
-                    <p>Circuit connections between STM32, MPU-6050, and motors</p>
-                </div>
+            <div class="placeholder-text">
+                <p><strong>More photos coming as the project progresses!</strong></p>
+                <p>Future updates will include 3D models, prototype builds, and working demonstrations</p>
             </div>
         </div>
-        
-        <div class="placeholder-text">
-            <p><strong>More photos coming as the project progresses!</strong></p>
-            <p>Future updates will include 3D models, prototype builds, and working demonstrations</p>
-        </div>
-    </div>
-</section>
+    </section>
     
     <!-- Next Steps Section -->
     <section id="next-steps" class="next-steps">
@@ -496,6 +563,15 @@ main frame. It's powered by two high-torque geared motors and uses a PID control
         </div>
     </footer>
 
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+        <div id="modalCaption"></div>
+    </div>
+
     <script>
         // Simple script to handle navigation highlighting
         const sections = document.querySelectorAll('section');
@@ -519,10 +595,42 @@ main frame. It's powered by two high-torque geared motors and uses a PID control
                 }
             });
         });
+
+        // Modal functions for image enlargement
+        function openModal(imageSrc, caption) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const captionText = document.getElementById('modalCaption');
+            
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            captionText.textContent = caption;
+            
+            // Prevent body scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            
+            // Restore body scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
     </script>
 </body>
-
 </html>
-
-
-
